@@ -59,5 +59,3 @@ def pod_admission_review():
         },
     }
     return admission_review.AdmissionReview(**ar)
-
-
