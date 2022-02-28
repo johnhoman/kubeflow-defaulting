@@ -1,18 +1,13 @@
 import fastapi
-from fastapi import Depends
-from kubernetes.client import V1Pod
 
-from src import depends
+
+from src import spark
 
 
 api = fastapi.FastAPI()
+api.include_router(spark.router, prefix="/spark")
 
 
 @api.get("healthz")
 def health_check():
-    pass
-
-
-@api.post("/mutate-spark-driver-core-v1-pod")
-def spark_driver_defaults(pod: V1Pod = Depends(depends.pod)):
     pass

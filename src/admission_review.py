@@ -8,6 +8,10 @@ from pydantic import Field
 
 
 class BaseModel(pydantic.BaseModel):
+    """
+    Forces models to serialize with alias names and exclude all unset
+    values
+    """
     def dict(self, *args, **kwargs):
         return super().dict(by_alias=True, exclude_unset=True, *args, **kwargs)
 
