@@ -10,6 +10,7 @@ from src.admission_review import AdmissionReview
 def _ser(cls):
     def to_dict(self):
         return ApiClient().sanitize_for_serialization(self)
+
     cls.to_dict = to_dict
     return cls
 
