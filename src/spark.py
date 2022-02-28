@@ -53,7 +53,7 @@ def spark_driver_defaults(
                 field_ref=V1ObjectFieldSelector(
                     field_path="metadata.namespace",
                 )
-            )
+            ),
         )
         container.env.append(var)
 
@@ -64,7 +64,7 @@ def spark_driver_defaults(
                 field_ref=V1ObjectFieldSelector(
                     field_path="metadata.name",
                 )
-            )
+            ),
         )
         container.env.append(var)
 
@@ -75,10 +75,9 @@ def spark_driver_defaults(
                 field_ref=V1ObjectFieldSelector(
                     field_path="status.podIP",
                 )
-            )
+            ),
         )
         container.env.append(var)
 
     pod.spec = spec
     return admission_review.patch(pod.to_dict())
-
