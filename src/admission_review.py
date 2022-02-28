@@ -17,7 +17,8 @@ class BaseModel(pydantic.BaseModel):
         allow_population_by_field_name = True
 
     def dict(self, *args, **kwargs):
-        return super().dict(by_alias=True, exclude_unset=True, *args, **kwargs)
+        kwargs.update(by_alias=True, exclude_unset=True)
+        return super().dict(**kwargs)
 
 
 class GroupVersionKind(BaseModel):
