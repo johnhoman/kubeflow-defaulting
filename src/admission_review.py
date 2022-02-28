@@ -1,6 +1,6 @@
 import base64
 import typing
-from typing import List
+from typing import List, Optional
 
 import jsonpatch
 import pydantic
@@ -42,7 +42,7 @@ class AdmissionRequest(BaseModel):
     uid: str
     kind: GroupVersionKind
     resource: GroupVersionResource
-    namespace: str
+    namespace: Optional[str]
     operation: str
     user_info: UserInfo = Field(..., alias="userInfo")
     object: dict
@@ -64,7 +64,7 @@ class AdmissionReview(BaseModel):
     request: AdmissionRequest
     response: AdmissionResponse = None
 
-    def patch(self, obj) -> 'AdmissionReview':
+    def patch(self, obj) -> "AdmissionReview":
         """
         Creates a patch response from a mutated object
         :param obj:
@@ -76,11 +76,11 @@ class AdmissionReview(BaseModel):
             allowed=True,
             uid=self.request.uid,
             patch=base64.b64encode(str(p).encode()).decode(),
-            patch_type="JSONPatch"
+            patch_type="JSONPatch",
         )
         return self_copy
 
-    def denied(self, reason: str = None) -> 'AdmissionReview':
+    def denied(self, reason: str = None) -> "AdmissionReview":
         self_copy = self.copy(deep=True)
         self_copy.response = AdmissionResponse(
             allowed=False,
@@ -90,7 +90,7 @@ class AdmissionReview(BaseModel):
             self_copy.response.status = {"message": reason, "code": 403}
         return self_copy
 
-    def allowed(self) -> 'AdmissionReview':
+    def allowed(self) -> "AdmissionReview":
         self_copy = self.copy(deep=True)
         self_copy.response = AdmissionResponse(
             allowed=True,
