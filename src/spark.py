@@ -21,6 +21,13 @@ def spark_driver_defaults(
     pod: V1Pod = Depends(depends.v1_pod),
     spec: V1PodSpec = Depends(depends.v1_pod_spec),
 ):
+    """
+    Configure pod to run as spark driver in client mode
+
+    The driver runs on port 2222, the block manager runs on
+    port 7777
+    """
+
     container = spec.containers[0]
     if container.ports is None:
         container.ports = []
