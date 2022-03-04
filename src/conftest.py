@@ -47,7 +47,11 @@ def pod_admission_review():
                         {
                             "name": "main",
                             "image": "python:3.8",
-                        }
+                        },
+                        {
+                            "name": "proxy",
+                            "image": "nginx:latest",
+                        },
                     ],
                     "restartPolicy": "Always",
                     "serviceAccountName": "default",

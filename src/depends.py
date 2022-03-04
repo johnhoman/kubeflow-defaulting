@@ -55,6 +55,14 @@ def v1_container(
     name: str = None,
 ) -> typing.Callable[[AdmissionReview], V1Container]:
     def container(spec: V1PodSpec = Depends(v1_pod_spec)) -> V1Container:
-        return spec.containers[0]
+        if position:
+            return spec.containers[position]
+        elif name:
+            for container in spec.containers:
+                if container.name == name:
+                    return container
+            return spec.containers[0]
+        else:
+            return spec.containers[0]
 
     return container
