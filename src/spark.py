@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends
 from kubernetes.client import (
+    V1Container,
     V1ContainerPort,
     V1EnvVar,
     V1EnvVarSource,
     V1ObjectFieldSelector,
-    V1Pod,
     V1PodSpec,
 )
 
@@ -18,8 +18,7 @@ router = APIRouter(tags=["spark"])
 @router.post("/mutate-driver-core-v1-pod")
 def spark_driver_defaults(
     admission_review: AdmissionReview,
-    pod: V1Pod = Depends(depends.v1_pod),
-    spec: V1PodSpec = Depends(depends.v1_pod_spec),
+    container: V1Container = Depends(depends.v1_container(position=0)),
 ):
     """
     Configure pod to run as spark driver in client mode
@@ -28,7 +27,6 @@ def spark_driver_defaults(
     port 7777
     """
 
-    container = spec.containers[0]
     if container.ports is None:
         container.ports = []
 
@@ -86,5 +84,4 @@ def spark_driver_defaults(
         )
         container.env.append(var)
 
-    pod.spec = spec
-    return admission_review.patch(pod.to_dict())
+    return admission_review.patch(container)

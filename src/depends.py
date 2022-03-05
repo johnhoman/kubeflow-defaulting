@@ -8,12 +8,12 @@ from kubernetes.client import ApiClient
 from src.admission_review import AdmissionReview
 
 
-def _ser(cls):
-    def to_dict(self):
-        return ApiClient().sanitize_for_serialization(self)
+def _wrap(obj):
+    def to_dict():
+        return ApiClient().sanitize_for_serialization(obj)
 
-    cls.to_dict = to_dict
-    return cls
+    obj.to_dict = to_dict
+    return obj
 
 
 class _Req(object):
@@ -34,7 +34,8 @@ def v1_pod(admission_review: AdmissionReview) -> V1Pod:
     -------
     kubernetes.client.V1Pod
     """
-    return _deserialize(admission_review.request.object, _ser(V1Pod))
+    pod = _deserialize(admission_review.request.object, V1Pod)
+    return _wrap(pod)
 
 
 def v1_pod_spec(pod: V1Pod = Depends(v1_pod)) -> V1PodSpec:
@@ -46,23 +47,43 @@ def v1_pod_spec(pod: V1Pod = Depends(v1_pod)) -> V1PodSpec:
     -------
     kubernetes.client.V1PodSpec
     """
-    return pod.spec
+
+    def transform(p):
+        def _transform(obj):
+            p.spec = obj
+            return p
+
+        return _transform
+
+    spec = pod.spec
+    spec.transform = transform(pod)
+    return _wrap(spec)
 
 
 def v1_container(
     *,
     position: int = None,
     name: str = None,
-) -> typing.Callable[[AdmissionReview], V1Container]:
+) -> typing.Callable[[V1PodSpec], V1Container]:
     def container(spec: V1PodSpec = Depends(v1_pod_spec)) -> V1Container:
+        pos = 0
         if position:
-            return spec.containers[position]
+            pos = position
         elif name:
-            for container in spec.containers:
-                if container.name == name:
-                    return container
-            return spec.containers[0]
-        else:
-            return spec.containers[0]
+            for k, item in enumerate(spec.containers):
+                if item.name == name:
+                    pos = k
+
+        rv = spec.containers[pos]
+
+        def transform(s, rank):
+            def _transform(obj):
+                s.containers[rank] = obj
+                return s
+
+            return _transform
+
+        rv.transform = transform(spec, pos)
+        return _wrap(rv)
 
     return container

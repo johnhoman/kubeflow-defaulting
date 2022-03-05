@@ -32,3 +32,10 @@ def test_v1_container_by_name(pod_admission_review):
     pod_spec = depends.v1_pod_spec(pod)
     container = depends.v1_container(name="main")(pod_spec)
     assert pod.spec.containers[0].to_dict() == container.to_dict()
+
+
+def test_v1_container_by_name_can_revert_to_pod(pod_admission_review):
+    pod = depends.v1_pod(pod_admission_review)
+    pod_spec = depends.v1_pod_spec(pod)
+    container = depends.v1_container(name="main")(pod_spec)
+    assert pod_admission_review.patch(container) == pod_admission_review.patch(pod)

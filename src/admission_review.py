@@ -71,6 +71,13 @@ class AdmissionReview(BaseModel):
         :param obj:
         :return:
         """
+
+        while hasattr(obj, "transform"):
+            obj = obj.transform(obj)
+
+        if hasattr(obj, "to_dict"):
+            obj = obj.to_dict()
+
         self_copy = self.copy(deep=True)
         p = jsonpatch.JsonPatch.from_diff(self.request.object, obj)
         self_copy.response = AdmissionResponse(
