@@ -8,12 +8,12 @@ from kubernetes.client import ApiClient
 from src.admission_review import AdmissionReview
 
 
-def _wrap(obj):
-    def to_dict():
-        return ApiClient().sanitize_for_serialization(obj)
+def _wrap(cls):
+    def to_dict(self):
+        return ApiClient().sanitize_for_serialization(self)
 
-    obj.to_dict = to_dict
-    return obj
+    cls.to_dict = to_dict
+    return cls
 
 
 class _Req(object):
@@ -34,8 +34,8 @@ def v1_pod(admission_review: AdmissionReview) -> V1Pod:
     -------
     kubernetes.client.V1Pod
     """
-    pod = _deserialize(admission_review.request.object, V1Pod)
-    return _wrap(pod)
+    pod = _deserialize(admission_review.request.object, _wrap(V1Pod))
+    return pod
 
 
 def v1_pod_spec(pod: V1Pod = Depends(v1_pod)) -> V1PodSpec:
@@ -57,7 +57,7 @@ def v1_pod_spec(pod: V1Pod = Depends(v1_pod)) -> V1PodSpec:
 
     spec = pod.spec
     spec.transform = transform(pod)
-    return _wrap(spec)
+    return spec
 
 
 def v1_container(
@@ -84,6 +84,6 @@ def v1_container(
             return _transform
 
         rv.transform = transform(spec, pos)
-        return _wrap(rv)
+        return rv
 
     return container
