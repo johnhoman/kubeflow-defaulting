@@ -22,19 +22,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ matrix.tox.python-version }}
       - name: Install dependencies
         run: |
-          python -m pip install -r test-requirements.txt
-      - name: Test with pytest
-        run: pytest src
-        env:
-          PYTHONPATH: ${{ github.workspace }}
-      - name: Check upgrade dependencies
-        run: |
-          python -m pip install pip-tools
-          python -m pip install -r <(pip-compile requirements.in 2>&1)
-      - name: Test upgraded with pytest
-        run: pytest src
-        env:
-          PYTHONPATH: ${{ github.workspace }}
+          python -m pip install tox
+      - name: Tox toxenv=${{ matrix.tox.toxenv }}
+        run: tox -e ${{ matrix.tox.toxenv }}
