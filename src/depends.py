@@ -1,11 +1,18 @@
 import json
 import typing
+from functools import lru_cache
 
 from fastapi import Depends
 from kubernetes.client import V1Pod, V1PodSpec, V1Container
 
 from src.kubernetes_extension import ApiClient, V1Profile
 from src.admission_review import AdmissionReview
+from src.settings import Settings
+
+
+@lru_cache()
+def settings():
+    return Settings()
 
 
 def _wrap(cls):
