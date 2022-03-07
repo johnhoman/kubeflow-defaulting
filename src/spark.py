@@ -5,7 +5,6 @@ from kubernetes.client import (
     V1EnvVar,
     V1EnvVarSource,
     V1ObjectFieldSelector,
-    V1PodSpec,
 )
 
 from src import depends
