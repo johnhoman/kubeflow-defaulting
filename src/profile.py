@@ -19,7 +19,8 @@ def iam_plugin(
 
     if not settings.profile_iam_role:
         logger.warning(
-            "profile iam role not configured in settings but iam plugin default endpoint is receiving traffic"
+            "profile iam role not configured in settings but "
+            "iam plugin default endpoint is receiving traffic"
         )
         return admission_review.allowed()
 
