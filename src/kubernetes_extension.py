@@ -76,7 +76,7 @@ class V1ProfileStatus(_ExtensionBase):
 class V1ProfilePlugin(_ExtensionBase):
     openapi_types = {
         "kind": "str",
-        "spec": "dict",
+        "spec": "dict(str, str)",
     }
     attribute_map = {
         "kind": "kind",
@@ -102,7 +102,7 @@ class V1ProfileSpec(_ExtensionBase):
     openapi_types = {
         "owner": "V1Subject",
         "resource_quota_spec": "V1ResourceQuotaSpec",
-        "plugins": "[dict]",
+        "plugins": "list[V1ProfilePlugin]",
     }
     attribute_map = {
         "owner": "owner",
@@ -171,6 +171,7 @@ class ApiClient(kubernetes.client.ApiClient):
     additional_types = {
         "V1Profile": V1Profile,
         "V1ProfileSpec": V1ProfileSpec,
+        "V1ProfilePlugin": V1ProfilePlugin,
         "V1ProfileStatus": V1ProfileStatus,
         "V1ProfileCondition": V1ProfileCondition,
     }
