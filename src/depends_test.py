@@ -1,4 +1,4 @@
-from src import depends, admission_review
+from src import depends
 
 
 def test_v1_pod(pod_admission_review):
