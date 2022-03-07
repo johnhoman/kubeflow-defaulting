@@ -17,7 +17,11 @@ jobs:
           python -m pip install -r test-requirements.txt
       - name: Test with pytest
         run: pytest src
+        env:
+          PYTHONPATH: ${{ github.workspace }}
       - name: Check upgrade dependencies
         run: python -m pip install -r =(pip-compile requirements.in 2>&1)
       - name: Test upgraded with pytest
         run: pytest src
+        env:
+          PYTHONPATH: ${{ github.workspace }}
