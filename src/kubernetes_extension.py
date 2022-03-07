@@ -6,7 +6,9 @@ from kubernetes.client import V1Pod
 class _ExtensionBase(object):
     to_dict = V1Pod.to_dict
     to_str = V1Pod.to_str
-    __repr__ = V1Pod.__repr__
+
+    def __repr__(self):
+        return self.to_str()
 
     def __eq__(self, other):
         if not isinstance(type(self), other):
