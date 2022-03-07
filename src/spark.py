@@ -14,7 +14,10 @@ from src.admission_review import AdmissionReview
 router = APIRouter(tags=["spark"])
 
 
-@router.post("/mutate-driver-core-v1-pod")
+@router.post(
+    "/mutate-driver-core-v1-pod",
+    response_model=AdmissionReview,
+)
 def spark_driver_defaults(
     admission_review: AdmissionReview,
     container: V1Container = Depends(depends.v1_container(position=0)),
