@@ -73,6 +73,31 @@ class V1ProfileStatus(_ExtensionBase):
         self.conditions = conditions
 
 
+class V1ProfilePlugin(_ExtensionBase):
+    openapi_types = {
+        "kind": "str",
+        "spec": "dict",
+    }
+    attribute_map = {
+        "kind": "kind",
+        "spec": "spec",
+    }
+
+    def __init__(
+        self,
+        kind=None,
+        spec=None,
+        local_vars_configuration=None,
+    ):
+
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
+
+        self.kind = kind
+        self.spec = spec
+
+
 class V1ProfileSpec(_ExtensionBase):
     openapi_types = {
         "owner": "V1Subject",
