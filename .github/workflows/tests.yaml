@@ -2,6 +2,9 @@ name: Python package
 on: [push]
 jobs:
   build:
+    defaults:
+      run:
+        shell: bash
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
