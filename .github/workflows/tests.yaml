@@ -1,10 +1,10 @@
 name: Python package
-on: [push]
+on:
+  push:
+  schedule:
+  - cron: '0 14 * * *'
 jobs:
   build:
-    defaults:
-      run:
-        shell: bash
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
