@@ -18,6 +18,8 @@ jobs:
           toxenv: py39
         - python-version: 3.9
           toxenv: style
+        - python-version: 3.9
+          toxenv: safety
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
