@@ -3,8 +3,8 @@ import typing
 
 from fastapi import Depends
 from kubernetes.client import V1Pod, V1PodSpec, V1Container
-from kubernetes.client import ApiClient
 
+from src.kubernetes_extension import ApiClient, V1Profile
 from src.admission_review import AdmissionReview
 
 
@@ -87,3 +87,8 @@ def v1_container(
         return rv
 
     return container
+
+
+def v1_profile(admission_review: AdmissionReview):
+    profile = _deserialize(admission_review.request.object, _wrap(V1Profile))
+    return profile

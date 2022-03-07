@@ -1,3 +1,5 @@
+import uuid
+
 from fastapi.testclient import TestClient
 import pytest
 
@@ -58,6 +60,44 @@ def pod_admission_review():
                     "serviceAccount": "default",
                 },
                 "status": {},
+            },
+            "oldObject": None,
+        },
+    }
+    return admission_review.AdmissionReview(**ar)
+
+
+@pytest.fixture(scope="function")
+def profile_admission_review():
+    ar = {
+        "kind": "AdmissionReview",
+        "apiVersion": "admission.k8s.io/v1beta1",
+        "request": {
+            "uid": str(uuid.uuid4()),
+            "kind": {"group": "kubeflow.org", "version": "v1", "kind": "Profile"},
+            "resource": {
+                "group": "kubeflow.org",
+                "version": "v1",
+                "resource": "profile",
+            },
+            "operation": "CREATE",
+            "userInfo": {
+                "username": "system:serviceaccount:kube-system:replicaset-controller",
+                "uid": "a7e0ab33-5f29-11e8-8a3c-36e6bb280816",
+                "groups": [
+                    "system:serviceaccounts",
+                    "system:serviceaccounts:kube-system",
+                    "system:authenticated",
+                ],
+            },
+            "object": {
+                "metadata": {
+                    "name": "staging",
+                },
+                "spec": {"owner": {"kind": "User", "name": "staging@example.com"}},
+                "status": {
+                    "conditions": [],
+                },
             },
             "oldObject": None,
         },

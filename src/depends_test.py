@@ -39,3 +39,8 @@ def test_v1_container_by_name_can_revert_to_pod(pod_admission_review):
     pod_spec = depends.v1_pod_spec(pod)
     container = depends.v1_container(name="main")(pod_spec)
     assert pod_admission_review.patch(container) == pod_admission_review.patch(pod)
+
+
+def test_v1_profile_can_deserialize(profile_admission_review):
+    profile = depends.v1_profile(profile_admission_review)
+    assert profile.spec.owner.kind == "User"
