@@ -4,6 +4,11 @@ from kubernetes.client import V1Pod
 
 
 class _ExtensionBase(object):
+    """
+    Base type for defining additional openapi types that
+    implement a kubernetes.client.models object
+    """
+
     to_dict = V1Pod.to_dict
     to_str = V1Pod.to_str
 
@@ -134,6 +139,10 @@ class V1Profile(_ExtensionBase):
 
 class ApiClient(kubernetes.client.ApiClient):
 
+    # additional_types is so deserialize finds the
+    # below types. kubernetes is hardcoded to
+    # getattr(kubernetes.client.models, klass) so
+    # there's no other way to inject these AFAICT
     additional_types = {
         "V1Profile": V1Profile,
         "V1ProfileSpec": V1ProfileSpec,
