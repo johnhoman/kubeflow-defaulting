@@ -177,8 +177,7 @@ class ApiClient(kubernetes.client.ApiClient):
     }
 
     def __deserialize(self, data, klass):
-        if isinstance(klass, str):
-            if klass in self.additional_types:
-                klass = self.additional_types[klass]
+        if isinstance(klass, str) and klass in self.additional_types:
+            klass = self.additional_types[klass]
 
         return super().__deserialize(data, klass)
