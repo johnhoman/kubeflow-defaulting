@@ -5,6 +5,21 @@ nameReference:
   - kind: Certificate
     group: cert-manager.io
     path: spec/issuerRef/name
+- kind: Service
+  version: v1
+  fieldSpecs:
+  - kind: MutatingWebhookConfiguration
+    group: admissionregistration.k8s.io
+    path: webhooks/clientConfig/service/name
+
+namespace:
+- kind: Service
+  version: v1
+  fieldSpecs:
+  - kind: MutatingWebhookConfiguration
+    group: admissionregistration.k8s.io
+    path: webhooks/clientConfig/service/namespace
+    create: true
 
 varReference:
 - kind: Certificate
@@ -13,3 +28,4 @@ varReference:
 - kind: Certificate
   group: cert-manager.io
   path: spec/dnsNames
+- path: metadata/annotations

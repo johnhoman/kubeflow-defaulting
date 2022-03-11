@@ -14,13 +14,28 @@ resources:
 - deployment.yaml
 - service.yaml
 - serviceaccount.yaml
+- manifest.yaml
 
 configurations:
 - kustomizeconfig.yaml
 
 vars:
 - fieldref:
-    fieldPath: metadata.namespace
+    fieldpath: metadata.namespace
+  name: CERTIFICATE_NAMESPACE
+  objref:
+    kind: Certificate
+    group: cert-manager.io
+    name: serving-cert
+    version: v1
+- name: CERTIFICATE_NAME
+  objref:
+    kind: Certificate
+    group: cert-manager.io
+    name: serving-cert
+    version: v1
+- fieldref:
+    fieldpath: metadata.namespace
   name: SERVICE_NAMESPACE
   objref:
     kind: Service
