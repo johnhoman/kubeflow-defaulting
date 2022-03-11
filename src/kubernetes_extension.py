@@ -163,6 +163,9 @@ class V1Profile(_ExtensionBase):
 
 
 class ApiClient(kubernetes.client.ApiClient):
+    """
+    deserialize additional api models
+    """
 
     # additional_types is so deserialize finds the
     # below types. kubernetes is hardcoded to
