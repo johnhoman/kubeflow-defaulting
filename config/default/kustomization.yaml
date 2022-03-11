@@ -5,6 +5,24 @@ commonLabels:
   app: kubeflow-defaulting
 
 resources:
+- certificate.yaml
 - deployment.yaml
+- service.yaml
 - serviceaccount.yaml
 
+configurations:
+- kustomizeconfig.yaml
+
+vars:
+- name: SERVICE_NAMESPACE
+  objref:
+    kind: Service
+    version: v1
+    name: webhook
+  fieldref:
+    fieldpath: metadata.namespace
+- name: SERVICE_NAME
+  objref:
+    kind: Service
+    version: v1
+    name: webhook
