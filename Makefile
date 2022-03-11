@@ -6,8 +6,14 @@ requirements:
 build-image: requirements
 	docker build -t ${IMG} -f Dockerfile .
 
+push-image: build-image
+	docker push ${IMG}
+
 run-image: build-image
 	docker run --rm -it -p 8000:8000 ${IMG}
+
+tag:
+	cd config/default && kustomize edit set image webhook=${IMG}
 
 fmt:
 	python -m black src
