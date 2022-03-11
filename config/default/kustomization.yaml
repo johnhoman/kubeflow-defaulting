@@ -1,5 +1,10 @@
 namePrefix: kubeflow-defaulting-
-namespace: kubeflow
+namespace: default
+
+images:
+- name: webhook
+  newName: jackhoman/kubeflow-defaulting
+  newTag: 7cbd896-dirty
 
 commonLabels:
   app: kubeflow-defaulting
@@ -14,15 +19,18 @@ configurations:
 - kustomizeconfig.yaml
 
 vars:
-- name: SERVICE_NAMESPACE
+- fieldref:
+    fieldPath: metadata.namespace
+  name: SERVICE_NAMESPACE
   objref:
     kind: Service
-    version: v1
     name: webhook
-  fieldref:
-    fieldpath: metadata.namespace
-- name: SERVICE_NAME
+    version: v1
+- fieldref: {}
+  name: SERVICE_NAME
   objref:
     kind: Service
-    version: v1
     name: webhook
+    version: v1
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
