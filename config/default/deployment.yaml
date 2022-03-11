@@ -15,12 +15,22 @@ spec:
     spec:
       containers:
       - name: webhook
-        image: nginx:latest
+        image: webhook:latest
+        command:
+        - uvicorn
+        args:
+        - main:app
+        - --host=0.0.0.0
+        - --port=8443
+        - --ssl-keyfile=/tmp/serving-certs/tls.key
+        - --ssl-certfile=/tmp/serving-certs/tls.crt
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8443
+            scheme: HTTPS
         ports:
         - containerPort: 8443
-        securityContext:
-          runAsNonRoot: true
-          allowPrivilegeEscalation: false
         resources:
           limits:
             cpu: 500m
@@ -28,5 +38,13 @@ spec:
           requests:
             cpu: 500m
             memory: 512Mi
+        volumeMounts:
+        - mountPath: /tmp/serving-certs
+          name: serving-certs
+          readOnly: true
       serviceAccountName: webhook
       terminationGracePeriodSeconds: 10
+      volumes:
+      - name: serving-certs
+        secret:
+          secretName: webhook-server-cert
