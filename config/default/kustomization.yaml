@@ -1,0 +1,10 @@
+namePrefix: kubeflow-defaulting-
+namespace: kubeflow
+
+commonLabels:
+  app: kubeflow-defaulting
+
+resources:
+- deployment.yaml
+- serviceaccount.yaml
+
