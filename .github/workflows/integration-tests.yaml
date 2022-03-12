@@ -14,7 +14,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - run: minikube start
-    - run: eval $(minikube docker-env) && make docker-build
+    - run: eval $(minikube docker-env) && make build-image
     - run: make update-kustomize
     - run: kubectl apply -k config/default
     - run: |-
