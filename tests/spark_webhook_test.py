@@ -33,7 +33,8 @@ def client(minikube):
     CoreV1Api().create_namespace(V1Namespace(
         metadata=V1ObjectMeta(name=namespace)
     ))
-    return Client(namespace)
+    yield Client(namespace)
+    CoreV1Api().delete_namespace(namespace)
 
 
 def test_spark_driver(client):
