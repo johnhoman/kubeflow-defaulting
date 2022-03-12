@@ -8,7 +8,10 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.9"]
-        kubernetes-version: ["v1.23.3"]
+        kubernetes-version:
+        - v1.23.4
+        - v1.22.7
+        - v1.21.10
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
