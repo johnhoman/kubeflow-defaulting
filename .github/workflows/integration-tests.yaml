@@ -14,6 +14,16 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - run: minikube start
+    - run: eval $(minikube docker-env)
+    - run: make docker-build
+    - run: make update-kustomize
     - run: kubectl apply -k config/default
+    - run: |-
+        # hardcoded name for now -- I'd like to think of a better way to do this without
+        # pushing the image to dockerhub or running a local registry
+        kubectl patch deployment kubeflow-defaulting-webhook \
+            --type="json" \
+            --patch='[{"op":"replace","path":"/spec/template/spec/containers/0/imagePullPolicy","value":"Never"}]'
+        kubectl wait --for=condition=ready pod -l app=kubeflow-defaulting -n default --timeout=1m
     - run: python -m pip install -r test-requirements.txt
     - run: python -m pytest tests

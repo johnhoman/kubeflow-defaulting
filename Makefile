@@ -12,7 +12,7 @@ push-image: build-image
 run-image: build-image
 	docker run --rm -it -p 8000:8000 ${IMG}
 
-tag:
+update-kustomize:
 	cd config/default && kustomize edit set image webhook=${IMG}
 
 fmt:
