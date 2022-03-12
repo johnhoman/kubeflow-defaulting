@@ -8,12 +8,13 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.9"]
+        kubernetes-version: ["v1.23.3"]
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - run: minikube start
+    - run: minikube start --kubernetes-version=${{ matrix.kubernetes-version }}
     - run: eval $(minikube docker-env) && make build-image
     - run: make update-kustomize
     - run: kubectl apply -k config/default
