@@ -17,7 +17,9 @@ jobs:
     - run: minikube start --kubernetes-version=${{ matrix.kubernetes-version }}
     - run: eval $(minikube docker-env) && make build-image
     - run: make update-kustomize
-    - run: kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.7.1/cert-manager.yaml
+    - run: |-
+        kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.7.1/cert-manager.yaml
+        kubectl wait --for=condition=ready pod -l "app=webhook,app.kubernetes.io/instance=cert-manager" -n cert-manager --timeout=60s
     - run: kubectl apply -k config/default
     - run: |-
         # hardcoded name for now -- I'd like to think of a better way to do this without
