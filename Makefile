@@ -3,7 +3,7 @@ IMG ?= jackhoman/kubeflow-defaulting:$(shell git describe --tags --always --dirt
 requirements:
 	pip-compile requirements.in -o requirements.txt
 
-build-image: requirements
+build-image:
 	docker build -t ${IMG} -f Dockerfile .
 
 push-image: build-image
