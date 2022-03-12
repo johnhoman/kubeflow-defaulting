@@ -1,3 +1,6 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
 namePrefix: kubeflow-defaulting-
 namespace: default
 
@@ -41,11 +44,10 @@ vars:
     kind: Service
     name: webhook
     version: v1
-- fieldref: {}
+- fieldref:
+    fieldpath: metadata.name
   name: SERVICE_NAME
   objref:
     kind: Service
     name: webhook
     version: v1
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization

@@ -4,9 +4,9 @@ metadata:
   name: webhook
   namespace: system
 spec:
-  selector:
-    app: webhook
   ports:
   - port: 443
     protocol: TCP
     targetPort: 8443
+  selector:
+    app: webhook

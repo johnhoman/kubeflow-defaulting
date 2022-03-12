@@ -17,7 +17,7 @@ jobs:
     - run: minikube start --kubernetes-version=${{ matrix.kubernetes-version }}
     - run: eval $(minikube docker-env) && make build-image
     - run: make update-kustomize
-    - run: kustomize build config/default | kubectl apply -f -
+    - run: kubectl apply -k config/default
     - run: |-
         # hardcoded name for now -- I'd like to think of a better way to do this without
         # pushing the image to dockerhub or running a local registry
