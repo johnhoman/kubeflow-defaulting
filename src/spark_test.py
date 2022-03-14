@@ -34,11 +34,20 @@ def test_spark_default_is_idempotent(client, pod_admission_review):
     assert before == after
 
 
-def test_spark_pod_has_ip_address(client, pod_admission_review):
+def test_spark_driver_pod_has_ip_address(client, pod_admission_review):
     obj = client.post(
         "/spark/mutate-driver-core-v1-pod", json=pod_admission_review.dict()
     ).json()
     ob = decode_patch(admission_review.AdmissionReview(**obj))
     env = {env["name"]: env for env in ob["spec"]["containers"][0]["env"]}
     assert env["POD_IP_ADDRESS"]["valueFrom"]["fieldRef"]["fieldPath"] == "status.podIP"
+
+
+def test_spark_driver_pod_has_pod_name(client, pod_admission_review):
+    obj = client.post(
+        "/spark/mutate-driver-core-v1-pod", json=pod_admission_review.dict()
+    ).json()
+    ob = decode_patch(admission_review.AdmissionReview(**obj))
+    env = {env["name"]: env for env in ob["spec"]["containers"][0]["env"]}
+    assert env["POD_NAME"]["valueFrom"]["fieldRef"]["fieldPath"] == "metadata.name"
 
