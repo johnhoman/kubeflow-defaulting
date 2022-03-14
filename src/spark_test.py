@@ -58,5 +58,7 @@ def test_spark_driver_pod_has_pod_namespace(client, pod_admission_review):
     ).json()
     ob = decode_patch(admission_review.AdmissionReview(**obj))
     env = {env["name"]: env for env in ob["spec"]["containers"][0]["env"]}
-    assert env["POD_NAMESPACE"]["valueFrom"]["fieldRef"]["fieldPath"] == "metadata.namespace"
-
+    assert (
+        env["POD_NAMESPACE"]["valueFrom"]["fieldRef"]["fieldPath"]
+        == "metadata.namespace"
+    )
