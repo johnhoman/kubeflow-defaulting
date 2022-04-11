@@ -38,7 +38,7 @@ kubernetes==23.3.0
     # via -r requirements.in
 oauthlib==3.2.0
     # via requests-oauthlib
-prometheus-client==0.13.1
+prometheus-client==0.14.1
     # via
     #   -r requirements.in
     #   prometheus-fastapi-instrumentator
