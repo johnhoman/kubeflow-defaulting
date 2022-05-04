@@ -16,7 +16,7 @@ charset-normalizer==2.0.12
     # via requests
 click==8.0.4
     # via uvicorn
-fastapi==0.38.1
+fastapi==0.75.2
     # via
     #   -r requirements.in
     #   prometheus-fastapi-instrumentator
