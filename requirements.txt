@@ -34,7 +34,7 @@ jsonpatch==1.32
     # via -r requirements.in
 jsonpointer==2.2
     # via jsonpatch
-kubernetes==23.3.0
+kubernetes==23.6.0
     # via -r requirements.in
 oauthlib==3.2.0
     # via requests-oauthlib
