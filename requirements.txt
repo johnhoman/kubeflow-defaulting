@@ -4,8 +4,6 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
-anyio==3.5.0
-    # via starlette
 asgiref==3.5.0
     # via uvicorn
 cachetools==5.0.0
@@ -27,9 +25,7 @@ google-auth==2.6.0
 h11==0.13.0
     # via uvicorn
 idna==3.3
-    # via
-    #   anyio
-    #   requests
+    # via requests
 jsonpatch==1.32
     # via -r requirements.in
 jsonpointer==2.2
@@ -38,11 +34,11 @@ kubernetes==23.6.0
     # via -r requirements.in
 oauthlib==3.2.0
     # via requests-oauthlib
-prometheus-client==0.13.1
+prometheus-client==0.8.0
     # via
     #   -r requirements.in
     #   prometheus-fastapi-instrumentator
-prometheus-fastapi-instrumentator==5.7.1
+prometheus-fastapi-instrumentator==5.8.0
     # via -r requirements.in
 pyasn1==0.4.8
     # via
@@ -50,7 +46,7 @@ pyasn1==0.4.8
     #   rsa
 pyasn1-modules==0.2.8
     # via google-auth
-pydantic==1.9.0
+pydantic==0.32.2
     # via
     #   -r requirements.in
     #   fastapi
@@ -71,12 +67,8 @@ six==1.16.0
     #   google-auth
     #   kubernetes
     #   python-dateutil
-sniffio==1.2.0
-    # via anyio
-starlette==0.17.1
+starlette==0.12.8
     # via fastapi
-typing-extensions==4.1.1
-    # via pydantic
 urllib3==1.26.8
     # via
     #   kubernetes
