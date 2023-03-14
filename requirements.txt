@@ -18,7 +18,7 @@ charset-normalizer==2.0.12
     # via requests
 click==8.0.4
     # via uvicorn
-fastapi==0.75.2
+fastapi==0.94.1
     # via
     #   -r requirements.in
     #   prometheus-fastapi-instrumentator
@@ -73,7 +73,7 @@ six==1.16.0
     #   python-dateutil
 sniffio==1.2.0
     # via anyio
-starlette==0.17.1
+starlette==0.26.1
     # via fastapi
 typing-extensions==4.1.1
     # via pydantic
